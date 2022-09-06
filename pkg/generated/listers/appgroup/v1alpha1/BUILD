@@ -4,7 +4,7 @@ go_library(
     name = "go_default_library",
     srcs = [
         "expansion_generated.go",
-        "noderesourcetopology.go",
+        "appgroup.go",
     ],
     importmap = "k8s.io/kubernetes/vendor/github.com/diktyo-io/appgroup-api/pkg/generated/listers/appgroup/v1alpha1",
     importpath = "github.com/diktyo-io/appgroup-api/pkg/generated/listers/appgroup/v1alpha1",

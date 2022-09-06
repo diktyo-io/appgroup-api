@@ -3,8 +3,8 @@ load("@io_bazel_rules_go//go:def.bzl", "go_library")
 go_library(
     name = "go_default_library",
     srcs = ["interface.go"],
-    importmap = "k8s.io/kubernetes/vendor/github.com/diktyo-io/appgroup-api/pkg/generated/informers/externalversions/topology",
-    importpath = "github.com/diktyo-io/appgroup-api/pkg/generated/informers/externalversions/topology",
+    importmap = "k8s.io/kubernetes/vendor/github.com/diktyo-io/appgroup-api/pkg/generated/informers/externalversions/appgroup",
+    importpath = "github.com/diktyo-io/appgroup-api/pkg/generated/informers/externalversions/appgroup",
     visibility = ["//visibility:public"],
     deps = [
         "//github.com/diktyo-io/appgroup-api/pkg/generated/informers/externalversions/internalinterfaces:go_default_library",
@@ -23,7 +23,7 @@ filegroup(
     name = "all-srcs",
     srcs = [
         ":package-srcs",
-        "//github.com/diktyo-io/appgroup-api/pkg/generated/informers/externalversions/topology/v1alpha1:all-srcs",
+        "//github.com/diktyo-io/appgroup-api/pkg/generated/informers/externalversions/appgroup/v1alpha1:all-srcs",
     ],
     tags = ["automanaged"],
     visibility = ["//visibility:public"],

@@ -20,7 +20,7 @@ go_library(
         "//staging/src/k8s.io/client-go/discovery:go_default_library",
         "//staging/src/k8s.io/client-go/discovery/fake:go_default_library",
         "//staging/src/k8s.io/client-go/testing:go_default_library",
-        "//github.com/diktyo-io/appgroup-api/pkg/apis/topology/v1alpha1:go_default_library",
+        "//github.com/diktyo-io/appgroup-api/pkg/apis/appgroup/v1alpha1:go_default_library",
         "//github.com/diktyo-io/appgroup-api/pkg/generated/clientset/versioned:go_default_library",
         "//github.com/diktyo-io/appgroup-api/pkg/generated/clientset/versioned/typed/appgroup/v1alpha1:go_default_library",
         "//github.com/diktyo-io/appgroup-api/pkg/generated/clientset/versioned/typed/appgroup/v1alpha1/fake:go_default_library",

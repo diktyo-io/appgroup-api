@@ -14,7 +14,7 @@ go_library(
         "//staging/src/k8s.io/apimachinery/pkg/runtime:go_default_library",
         "//staging/src/k8s.io/apimachinery/pkg/watch:go_default_library",
         "//staging/src/k8s.io/client-go/tools/cache:go_default_library",
-        "//github.com/diktyo-io/appgroup-api/pkg/apis/topology/v1alpha1:go_default_library",
+        "//github.com/diktyo-io/appgroup-api/pkg/apis/appgroup/v1alpha1:go_default_library",
         "//github.com/diktyo-io/appgroup-api/pkg/generated/clientset/versioned:go_default_library",
         "//github.com/diktyo-io/appgroup-api/pkg/generated/informers/externalversions/internalinterfaces:go_default_library",
         "//github.com/diktyo-io/appgroup-api/pkg/generated/listers/appgroup/v1alpha1:go_default_library",
