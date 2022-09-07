@@ -63,29 +63,29 @@ func NewFilteredAppGroupInformer(client versioned.Interface, resyncPeriod time.D
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.AppGroupV1alpha1().AppGroup().List(context.TODO(), options)
+				return client.AppGroupV1alpha1().AppGroups().List(context.TODO(), options)
 			},
 			WatchFunc: func(options v1.ListOptions) (watch.Interface, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.AppGroupV1alpha1().NodeResourceTopologies().Watch(context.TODO(), options)
+				return client.AppGroupV1alpha1().AppGroups().Watch(context.TODO(), options)
 			},
 		},
-		&topologyv1alpha1.NodeResourceTopology{},
+		&appgroupv1alpha1.AppGroup{},
 		resyncPeriod,
 		indexers,
 	)
 }
 
-func (f *nodeResourceTopologyInformer) defaultInformer(client versioned.Interface, resyncPeriod time.Duration) cache.SharedIndexInformer {
-	return NewFilteredNodeResourceTopologyInformer(client, resyncPeriod, cache.Indexers{cache.NamespaceIndex: cache.MetaNamespaceIndexFunc}, f.tweakListOptions)
+func (f *appGroupInformer) defaultInformer(client versioned.Interface, resyncPeriod time.Duration) cache.SharedIndexInformer {
+	return NewFilteredAppGroupInformer(client, resyncPeriod, cache.Indexers{cache.NamespaceIndex: cache.MetaNamespaceIndexFunc}, f.tweakListOptions)
 }
 
-func (f *nodeResourceTopologyInformer) Informer() cache.SharedIndexInformer {
-	return f.factory.InformerFor(&topologyv1alpha1.NodeResourceTopology{}, f.defaultInformer)
+func (f *appGroupInformer) Informer() cache.SharedIndexInformer {
+	return f.factory.InformerFor(&appgroupv1alpha1.AppGroup{}, f.defaultInformer)
 }
 
-func (f *nodeResourceTopologyInformer) Lister() v1alpha1.NodeResourceTopologyLister {
-	return v1alpha1.NewNodeResourceTopologyLister(f.Informer().GetIndexer())
+func (f *appGroupInformer) Lister() v1alpha1.AppGroupLister {
+	return v1alpha1.NewAppGroupLister(f.Informer().GetIndexer())
 }

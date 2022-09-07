@@ -29,7 +29,7 @@ import (
 
 // AppGroupLister helps list NodeResourceTopologies.
 // All objects returned here must be treated as read-only.
-type AppGroupLister interface {
+type AppGroupsLister interface {
 	// List lists all NodeResourceTopologies in the indexer.
 	// Objects returned here must be treated as read-only.
 	List(selector labels.Selector) (ret []*v1alpha1.AppGroup, err error)

@@ -20,6 +20,6 @@ limitations under the License.
 
 package v1alpha1
 
-// NodeResourceTopologyListerExpansion allows custom methods to be added to
-// NodeResourceTopologyLister.
-type NodeResourceTopologyListerExpansion interface{}
+// AppGroupListerExpansion allows custom methods to be added to
+// AppGroupLister.
+type AppGroupListerExpansion interface{}

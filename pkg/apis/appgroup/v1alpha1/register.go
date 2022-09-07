@@ -5,7 +5,7 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
-	appgroup "github.com/diktyo-io/appgroup-api/pkg/apis/appgroup"
+	"github.com/diktyo-io/appgroup-api/pkg/apis/appgroup"
 )
 
 // SchemeGroupVersion is group version used to register these objects

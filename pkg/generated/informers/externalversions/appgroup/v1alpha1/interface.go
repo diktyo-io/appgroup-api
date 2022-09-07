@@ -42,6 +42,6 @@ func New(f internalinterfaces.SharedInformerFactory, namespace string, tweakList
 }
 
 // NodeResourceTopologies returns a NodeResourceTopologyInformer.
-func (v *version) NodeResourceTopologies() AppGroupInformer {
+func (v *version) Appgroups() AppGroupInformer {
 	return &appGroupInformer{factory: v.factory, tweakListOptions: v.tweakListOptions}
 }

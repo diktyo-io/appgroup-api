@@ -34,40 +34,40 @@ import (
 
 // NodeResourceTopologiesGetter has a method to return a NodeResourceTopologyInterface.
 // A group's client should implement this interface.
-type NodeResourceTopologiesGetter interface {
-	NodeResourceTopologies() NodeResourceTopologyInterface
+type AppGroupsGetter interface {
+	AppGroups() AppGroupInterface
 }
 
 // NodeResourceTopologyInterface has methods to work with NodeResourceTopology resources.
-type NodeResourceTopologyInterface interface {
-	Create(ctx context.Context, nodeResourceTopology *v1alpha1.NodeResourceTopology, opts v1.CreateOptions) (*v1alpha1.NodeResourceTopology, error)
-	Update(ctx context.Context, nodeResourceTopology *v1alpha1.NodeResourceTopology, opts v1.UpdateOptions) (*v1alpha1.NodeResourceTopology, error)
+type AppGroupInterface interface {
+	Create(ctx context.Context, appGroup *v1alpha1.AppGroup, opts v1.CreateOptions) (*v1alpha1.AppGroup, error)
+	Update(ctx context.Context, appGroup *v1alpha1.AppGroup, opts v1.UpdateOptions) (*v1alpha1.AppGroup, error)
 	Delete(ctx context.Context, name string, opts v1.DeleteOptions) error
 	DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error
-	Get(ctx context.Context, name string, opts v1.GetOptions) (*v1alpha1.NodeResourceTopology, error)
-	List(ctx context.Context, opts v1.ListOptions) (*v1alpha1.NodeResourceTopologyList, error)
+	Get(ctx context.Context, name string, opts v1.GetOptions) (*v1alpha1.AppGroup, error)
+	List(ctx context.Context, opts v1.ListOptions) (*v1alpha1.AppGroupList, error)
 	Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error)
-	Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1alpha1.NodeResourceTopology, err error)
-	NodeResourceTopologyExpansion
+	Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1alpha1.AppGroup, err error)
+	AppGroupExpansion
 }
 
-// nodeResourceTopologies implements NodeResourceTopologyInterface
-type nodeResourceTopologies struct {
+// AppGroups implements NodeResourceTopologyInterface
+type AppGroups struct {
 	client rest.Interface
 }
 
-// newNodeResourceTopologies returns a NodeResourceTopologies
-func newNodeResourceTopologies(c *TopologyV1alpha1Client) *nodeResourceTopologies {
-	return &nodeResourceTopologies{
+// newAppGroups returns a NodeResourceTopologies
+func newAppGroups(c *AppGroupV1alpha1Client) *AppGroups {
+	return &AppGroups{
 		client: c.RESTClient(),
 	}
 }
 
 // Get takes name of the nodeResourceTopology, and returns the corresponding nodeResourceTopology object, and an error if there is any.
-func (c *nodeResourceTopologies) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.NodeResourceTopology, err error) {
-	result = &v1alpha1.NodeResourceTopology{}
+func (c *AppGroups) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.AppGroup, err error) {
+	result = &v1alpha1.AppGroup{}
 	err = c.client.Get().
-		Resource("noderesourcetopologies").
+		Resource("appgroups").
 		Name(name).
 		VersionedParams(&options, scheme.ParameterCodec).
 		Do(ctx).
@@ -76,12 +76,12 @@ func (c *nodeResourceTopologies) Get(ctx context.Context, name string, options v
 }
 
 // List takes label and field selectors, and returns the list of NodeResourceTopologies that match those selectors.
-func (c *nodeResourceTopologies) List(ctx context.Context, opts v1.ListOptions) (result *v1alpha1.NodeResourceTopologyList, err error) {
+func (c *AppGroups) List(ctx context.Context, opts v1.ListOptions) (result *v1alpha1.AppGroupList, err error) {
 	var timeout time.Duration
 	if opts.TimeoutSeconds != nil {
 		timeout = time.Duration(*opts.TimeoutSeconds) * time.Second
 	}
-	result = &v1alpha1.NodeResourceTopologyList{}
+	result = &v1alpha1.AppGroupList{}
 	err = c.client.Get().
 		Resource("noderesourcetopologies").
 		VersionedParams(&opts, scheme.ParameterCodec).
@@ -92,48 +92,48 @@ func (c *nodeResourceTopologies) List(ctx context.Context, opts v1.ListOptions) 
 }
 
 // Watch returns a watch.Interface that watches the requested nodeResourceTopologies.
-func (c *nodeResourceTopologies) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error) {
+func (c *AppGroups) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error) {
 	var timeout time.Duration
 	if opts.TimeoutSeconds != nil {
 		timeout = time.Duration(*opts.TimeoutSeconds) * time.Second
 	}
 	opts.Watch = true
 	return c.client.Get().
-		Resource("noderesourcetopologies").
+		Resource("appgroups").
 		VersionedParams(&opts, scheme.ParameterCodec).
 		Timeout(timeout).
 		Watch(ctx)
 }
 
 // Create takes the representation of a nodeResourceTopology and creates it.  Returns the server's representation of the nodeResourceTopology, and an error, if there is any.
-func (c *nodeResourceTopologies) Create(ctx context.Context, nodeResourceTopology *v1alpha1.NodeResourceTopology, opts v1.CreateOptions) (result *v1alpha1.NodeResourceTopology, err error) {
-	result = &v1alpha1.NodeResourceTopology{}
+func (c *AppGroups) Create(ctx context.Context, appGroup *v1alpha1.AppGroup, opts v1.CreateOptions) (result *v1alpha1.AppGroup, err error) {
+	result = &v1alpha1.AppGroup{}
 	err = c.client.Post().
-		Resource("noderesourcetopologies").
+		Resource("appgroups").
 		VersionedParams(&opts, scheme.ParameterCodec).
-		Body(nodeResourceTopology).
+		Body(appGroup).
 		Do(ctx).
 		Into(result)
 	return
 }
 
 // Update takes the representation of a nodeResourceTopology and updates it. Returns the server's representation of the nodeResourceTopology, and an error, if there is any.
-func (c *nodeResourceTopologies) Update(ctx context.Context, nodeResourceTopology *v1alpha1.NodeResourceTopology, opts v1.UpdateOptions) (result *v1alpha1.NodeResourceTopology, err error) {
-	result = &v1alpha1.NodeResourceTopology{}
+func (c *AppGroups) Update(ctx context.Context, appGroup *v1alpha1.AppGroup, opts v1.UpdateOptions) (result *v1alpha1.AppGroup, err error) {
+	result = &v1alpha1.AppGroup{}
 	err = c.client.Put().
-		Resource("noderesourcetopologies").
-		Name(nodeResourceTopology.Name).
+		Resource("appgroups").
+		Name(appGroup.Name).
 		VersionedParams(&opts, scheme.ParameterCodec).
-		Body(nodeResourceTopology).
+		Body(appGroup).
 		Do(ctx).
 		Into(result)
 	return
 }
 
 // Delete takes name of the nodeResourceTopology and deletes it. Returns an error if one occurs.
-func (c *nodeResourceTopologies) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
+func (c *AppGroups) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
 	return c.client.Delete().
-		Resource("noderesourcetopologies").
+		Resource("appgroups").
 		Name(name).
 		Body(&opts).
 		Do(ctx).
@@ -141,7 +141,7 @@ func (c *nodeResourceTopologies) Delete(ctx context.Context, name string, opts v
 }
 
 // DeleteCollection deletes a collection of objects.
-func (c *nodeResourceTopologies) DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error {
+func (c *AppGroups) DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error {
 	var timeout time.Duration
 	if listOpts.TimeoutSeconds != nil {
 		timeout = time.Duration(*listOpts.TimeoutSeconds) * time.Second
@@ -156,10 +156,10 @@ func (c *nodeResourceTopologies) DeleteCollection(ctx context.Context, opts v1.D
 }
 
 // Patch applies the patch and returns the patched nodeResourceTopology.
-func (c *nodeResourceTopologies) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1alpha1.NodeResourceTopology, err error) {
-	result = &v1alpha1.NodeResourceTopology{}
+func (c *AppGroups) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1alpha1.AppGroup, err error) {
+	result = &v1alpha1.AppGroup{}
 	err = c.client.Patch(pt).
-		Resource("noderesourcetopologies").
+		Resource("appgroups").
 		Name(name).
 		SubResource(subresources...).
 		VersionedParams(&opts, scheme.ParameterCodec).

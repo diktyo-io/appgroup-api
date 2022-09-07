@@ -31,19 +31,19 @@ import (
 
 type Interface interface {
 	Discovery() discovery.DiscoveryInterface
-	AppGroupV1alpha1() appgroupv1alpha1.TopologyV1alpha1Client
+	AppGroupV1alpha1() appgroupv1alpha1.AppGroupV1alpha1Client
 }
 
 // Clientset contains the clients for groups. Each group has exactly one
 // version included in a Clientset.
 type Clientset struct {
 	*discovery.DiscoveryClient
-	appGroupV1alpha1 *appgroupv1alpha1.Appgroupv1alpha1
+	appGroupV1alpha1 *appgroupv1alpha1.AppGroupV1alpha1Interface
 }
 
 // TopologyV1alpha1 retrieves the TopologyV1alpha1Client
-func (c *Clientset) TopologyV1alpha1() appgroupv1alpha1.TopologyV1alpha1Interface {
-	return c.appgroupv1alpha1
+func (c *Clientset) AppGroupV1alpha1() appgroupv1alpha1.AppGroupV1alpha1Interface {
+	return c.AppGroupV1alpha1
 }
 
 // Discovery retrieves the DiscoveryClient
@@ -67,7 +67,7 @@ func NewForConfig(c *rest.Config) (*Clientset, error) {
 	}
 	var cs Clientset
 	var err error
-	cs.topologyV1alpha1, err = topologyv1alpha1.NewForConfig(&configShallowCopy)
+	cs.appGroupV1alpha1, err = appgroupv1alpha1.NewForConfig(&configShallowCopy)
 	if err != nil {
 		return nil, err
 	}
@@ -83,7 +83,7 @@ func NewForConfig(c *rest.Config) (*Clientset, error) {
 // panics if there is an error in the config.
 func NewForConfigOrDie(c *rest.Config) *Clientset {
 	var cs Clientset
-	cs.topologyV1alpha1 = topologyv1alpha1.NewForConfigOrDie(c)
+	cs.appGroupV1alpha1 = appgroupv1alpha1.NewForConfigOrDie(c)
 
 	cs.DiscoveryClient = discovery.NewDiscoveryClientForConfigOrDie(c)
 	return &cs
@@ -92,7 +92,7 @@ func NewForConfigOrDie(c *rest.Config) *Clientset {
 // New creates a new Clientset for the given RESTClient.
 func New(c rest.Interface) *Clientset {
 	var cs Clientset
-	cs.topologyV1alpha1 = topologyv1alpha1.New(c)
+	cs.appGroupV1alpha1 = appgroupv1alpha1.New(c)
 
 	cs.DiscoveryClient = discovery.NewDiscoveryClient(c)
 	return &cs

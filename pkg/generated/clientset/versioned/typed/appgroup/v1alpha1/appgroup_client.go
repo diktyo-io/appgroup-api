@@ -26,22 +26,22 @@ import (
 	rest "k8s.io/client-go/rest"
 )
 
-type TopologyV1alpha1Interface interface {
+type AppGroupV1alpha1Interface interface {
 	RESTClient() rest.Interface
-	NodeResourceTopologiesGetter
+	AppGroupsGetter
 }
 
-// TopologyV1alpha1Client is used to interact with features provided by the appgroup.node.k8s.io group.
-type TopologyV1alpha1Client struct {
+// AppGroupV1alpha1Client is used to interact with features provided by the appgroup.node.k8s.io group.
+type AppGroupV1alpha1Client struct {
 	restClient rest.Interface
 }
 
-func (c *TopologyV1alpha1Client) NodeResourceTopologies() NodeResourceTopologyInterface {
-	return newNodeResourceTopologies(c)
+func (c *AppGroupV1alpha1Client) AppGroups() AppGroupInterface {
+	return newAppGroups(c)
 }
 
 // NewForConfig creates a new TopologyV1alpha1Client for the given config.
-func NewForConfig(c *rest.Config) (*TopologyV1alpha1Client, error) {
+func NewForConfig(c *rest.Config) (*AppGroupV1alpha1Client, error) {
 	config := *c
 	if err := setConfigDefaults(&config); err != nil {
 		return nil, err
@@ -50,12 +50,12 @@ func NewForConfig(c *rest.Config) (*TopologyV1alpha1Client, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &TopologyV1alpha1Client{client}, nil
+	return &AppGroupV1alpha1Client{client}, nil
 }
 
 // NewForConfigOrDie creates a new TopologyV1alpha1Client for the given config and
 // panics if there is an error in the config.
-func NewForConfigOrDie(c *rest.Config) *TopologyV1alpha1Client {
+func NewForConfigOrDie(c *rest.Config) *AppGroupV1alpha1Client {
 	client, err := NewForConfig(c)
 	if err != nil {
 		panic(err)
@@ -64,8 +64,8 @@ func NewForConfigOrDie(c *rest.Config) *TopologyV1alpha1Client {
 }
 
 // New creates a new TopologyV1alpha1Client for the given RESTClient.
-func New(c rest.Interface) *TopologyV1alpha1Client {
-	return &TopologyV1alpha1Client{c}
+func New(c rest.Interface) *AppGroupV1alpha1Client {
+	return &AppGroupV1alpha1Client{c}
 }
 
 func setConfigDefaults(config *rest.Config) error {
@@ -83,7 +83,7 @@ func setConfigDefaults(config *rest.Config) error {
 
 // RESTClient returns a RESTClient that is used to communicate
 // with API server by this client implementation.
-func (c *TopologyV1alpha1Client) RESTClient() rest.Interface {
+func (c *AppGroupV1alpha1Client) RESTClient() rest.Interface {
 	if c == nil {
 		return nil
 	}

@@ -9,4 +9,4 @@ require (
 	k8s.io/code-generator v0.22.3
 )
 
-replace github.com/diktyo-io/appgroup-api => ../appgroup-api
+// replace github.com/diktyo-io/appgroup-api => ../appgroup-api

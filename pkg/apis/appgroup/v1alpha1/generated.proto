@@ -25,7 +25,7 @@ package v1alpha1;
 import "k8s.io/apimachinery/pkg/api/resource/generated.proto";
 
 // Package-wide variables from generator "generated".
-option go_package = "github.com/k8stopologyawareschedwg/noderesourcetopology-api/pkg/apis/appgroup/v1alpha1";
+option go_package = "github.com/diktyo-io/appgroup-api/pkg/apis/appgroup/v1alpha1";
 
 // AttributeInfo contains one attribute of a Zone.
 // +protobuf=true

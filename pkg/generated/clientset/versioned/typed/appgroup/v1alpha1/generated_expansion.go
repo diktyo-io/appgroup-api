@@ -20,4 +20,4 @@ limitations under the License.
 
 package v1alpha1
 
-type NodeResourceTopologyExpansion interface{}
+type AppGroupExpansion interface{}
