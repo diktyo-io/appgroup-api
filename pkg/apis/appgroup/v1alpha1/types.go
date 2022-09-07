@@ -7,27 +7,6 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-// +kubebuilder:object:root=true
-// +kubebuilder:resource:shortName={ag,ags}
-// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
-
-// AppGroup is a collection of Pods belonging to the same application
-type AppGroup struct {
-	metav1.TypeMeta `json:",inline"`
-
-	// Standard object's metadata.
-	// +optional
-	metav1.ObjectMeta `json:"metadata,omitempty" protobuf:"bytes,1,opt,name=metadata"`
-
-	// AppGroupSpec defines the Min and Max for Quota.
-	// +optional
-	Spec AppGroupSpec `json:"spec,omitempty" protobuf:"bytes,2,opt,name=spec"`
-
-	// AppGroupStatus defines the observed use.
-	// +optional
-	Status AppGroupStatus `json:"status,omitempty" protobuf:"bytes,3,opt,name=status"`
-}
-
 // Constants for AppGroup
 const (
 	// AppGroupLabel is the default label of the AppGroup for the network-aware framework
@@ -45,7 +24,31 @@ const (
 	AppGroupAlternateTarjan = "AlternateTarjan"
 )
 
+// +genclient
+// +genclient:nonNamespaced
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+// +kubebuilder:resource:scope=Cluster,shortName=ag
+
+// AppGroup is a collection of Pods belonging to the same application
+// +protobuf=true
+type AppGroup struct {
+	metav1.TypeMeta `json:",inline"`
+
+	// Standard object's metadata.
+	// +optional
+	metav1.ObjectMeta `json:"metadata,omitempty" protobuf:"bytes,1,opt,name=metadata"`
+
+	// AppGroupSpec defines the Min and Max for Quota.
+	// +optional
+	Spec AppGroupSpec `json:"spec,omitempty" protobuf:"bytes,2,opt,name=spec"`
+
+	// AppGroupStatus defines the observed use.
+	// +optional
+	Status AppGroupStatus `json:"status,omitempty" protobuf:"bytes,3,opt,name=status"`
+}
+
 // AppGroupSpec represents the template of a app group.
+// +protobuf=true
 type AppGroupSpec struct {
 	// NumMembers defines the number of Pods belonging to the App Group
 	NumMembers int32 `json:"numMembers,omitempty" protobuf:"bytes,1,opt,name=numMembers"`
@@ -112,6 +115,7 @@ type DependenciesInfo struct {
 type DependenciesList []DependenciesInfo
 
 // AppGroupStatus represents the current state of an AppGroup.
+// +protobuf=true
 type AppGroupStatus struct {
 	// The number of actively running workloads (e.g., number of pods).
 	// +optional
@@ -141,7 +145,6 @@ type AppGroupTopologyInfo struct {
 // +protobuf=true
 type AppGroupTopologyList []AppGroupTopologyInfo
 
-// +kubebuilder:object:root=true
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
 // AppGroupList is a collection of app groups.

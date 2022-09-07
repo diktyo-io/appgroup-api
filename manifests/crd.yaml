@@ -8,9 +8,9 @@ metadata:
     api-approved.kubernetes.io: "To be Defined" # edited manually
     controller-gen.kubebuilder.io/version: v0.6.2
   creationTimestamp: null
-  name: appgroups.scheduling.sigs.k8s.io
+  name: app-group.diktyo.k8s.io
 spec:
-  group: scheduling.sigs.k8s.io
+  group: diktyo.k8s.io
   names:
     kind: AppGroup
     listKind: AppGroupList
