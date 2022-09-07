@@ -157,3 +157,4 @@ type AppGroupList struct {
 	// Items is the list of AppGroup
 	Items []AppGroup `json:"items"`
 }
+
