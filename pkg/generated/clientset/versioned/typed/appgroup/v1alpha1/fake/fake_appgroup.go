@@ -35,6 +35,7 @@ import (
 // FakeAppGroups implements AppGroupInterface
 type FakeAppGroups struct {
 	Fake *FakeDiktyoV1alpha1
+	ns   string
 }
 
 var appgroupsResource = schema.GroupVersionResource{Group: "diktyo.k8s.io", Version: "v1alpha1", Resource: "appgroups"}
@@ -44,7 +45,8 @@ var appgroupsKind = schema.GroupVersionKind{Group: "diktyo.k8s.io", Version: "v1
 // Get takes name of the appGroup, and returns the corresponding appGroup object, and an error if there is any.
 func (c *FakeAppGroups) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.AppGroup, err error) {
 	obj, err := c.Fake.
-		Invokes(testing.NewRootGetAction(appgroupsResource, name), &v1alpha1.AppGroup{})
+		Invokes(testing.NewGetAction(appgroupsResource, c.ns, name), &v1alpha1.AppGroup{})
+
 	if obj == nil {
 		return nil, err
 	}
@@ -54,7 +56,8 @@ func (c *FakeAppGroups) Get(ctx context.Context, name string, options v1.GetOpti
 // List takes label and field selectors, and returns the list of AppGroups that match those selectors.
 func (c *FakeAppGroups) List(ctx context.Context, opts v1.ListOptions) (result *v1alpha1.AppGroupList, err error) {
 	obj, err := c.Fake.
-		Invokes(testing.NewRootListAction(appgroupsResource, appgroupsKind, opts), &v1alpha1.AppGroupList{})
+		Invokes(testing.NewListAction(appgroupsResource, appgroupsKind, c.ns, opts), &v1alpha1.AppGroupList{})
+
 	if obj == nil {
 		return nil, err
 	}
@@ -75,13 +78,15 @@ func (c *FakeAppGroups) List(ctx context.Context, opts v1.ListOptions) (result *
 // Watch returns a watch.Interface that watches the requested appGroups.
 func (c *FakeAppGroups) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error) {
 	return c.Fake.
-		InvokesWatch(testing.NewRootWatchAction(appgroupsResource, opts))
+		InvokesWatch(testing.NewWatchAction(appgroupsResource, c.ns, opts))
+
 }
 
 // Create takes the representation of a appGroup and creates it.  Returns the server's representation of the appGroup, and an error, if there is any.
 func (c *FakeAppGroups) Create(ctx context.Context, appGroup *v1alpha1.AppGroup, opts v1.CreateOptions) (result *v1alpha1.AppGroup, err error) {
 	obj, err := c.Fake.
-		Invokes(testing.NewRootCreateAction(appgroupsResource, appGroup), &v1alpha1.AppGroup{})
+		Invokes(testing.NewCreateAction(appgroupsResource, c.ns, appGroup), &v1alpha1.AppGroup{})
+
 	if obj == nil {
 		return nil, err
 	}
@@ -91,7 +96,8 @@ func (c *FakeAppGroups) Create(ctx context.Context, appGroup *v1alpha1.AppGroup,
 // Update takes the representation of a appGroup and updates it. Returns the server's representation of the appGroup, and an error, if there is any.
 func (c *FakeAppGroups) Update(ctx context.Context, appGroup *v1alpha1.AppGroup, opts v1.UpdateOptions) (result *v1alpha1.AppGroup, err error) {
 	obj, err := c.Fake.
-		Invokes(testing.NewRootUpdateAction(appgroupsResource, appGroup), &v1alpha1.AppGroup{})
+		Invokes(testing.NewUpdateAction(appgroupsResource, c.ns, appGroup), &v1alpha1.AppGroup{})
+
 	if obj == nil {
 		return nil, err
 	}
@@ -102,7 +108,8 @@ func (c *FakeAppGroups) Update(ctx context.Context, appGroup *v1alpha1.AppGroup,
 // Add a +genclient:noStatus comment above the type to avoid generating UpdateStatus().
 func (c *FakeAppGroups) UpdateStatus(ctx context.Context, appGroup *v1alpha1.AppGroup, opts v1.UpdateOptions) (*v1alpha1.AppGroup, error) {
 	obj, err := c.Fake.
-		Invokes(testing.NewRootUpdateSubresourceAction(appgroupsResource, "status", appGroup), &v1alpha1.AppGroup{})
+		Invokes(testing.NewUpdateSubresourceAction(appgroupsResource, "status", c.ns, appGroup), &v1alpha1.AppGroup{})
+
 	if obj == nil {
 		return nil, err
 	}
@@ -112,13 +119,14 @@ func (c *FakeAppGroups) UpdateStatus(ctx context.Context, appGroup *v1alpha1.App
 // Delete takes name of the appGroup and deletes it. Returns an error if one occurs.
 func (c *FakeAppGroups) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
 	_, err := c.Fake.
-		Invokes(testing.NewRootDeleteAction(appgroupsResource, name), &v1alpha1.AppGroup{})
+		Invokes(testing.NewDeleteAction(appgroupsResource, c.ns, name), &v1alpha1.AppGroup{})
+
 	return err
 }
 
 // DeleteCollection deletes a collection of objects.
 func (c *FakeAppGroups) DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error {
-	action := testing.NewRootDeleteCollectionAction(appgroupsResource, listOpts)
+	action := testing.NewDeleteCollectionAction(appgroupsResource, c.ns, listOpts)
 
 	_, err := c.Fake.Invokes(action, &v1alpha1.AppGroupList{})
 	return err
@@ -127,7 +135,8 @@ func (c *FakeAppGroups) DeleteCollection(ctx context.Context, opts v1.DeleteOpti
 // Patch applies the patch and returns the patched appGroup.
 func (c *FakeAppGroups) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1alpha1.AppGroup, err error) {
 	obj, err := c.Fake.
-		Invokes(testing.NewRootPatchSubresourceAction(appgroupsResource, name, pt, data, subresources...), &v1alpha1.AppGroup{})
+		Invokes(testing.NewPatchSubresourceAction(appgroupsResource, c.ns, name, pt, data, subresources...), &v1alpha1.AppGroup{})
+
 	if obj == nil {
 		return nil, err
 	}

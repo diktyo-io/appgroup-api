@@ -43,5 +43,5 @@ func New(f internalinterfaces.SharedInformerFactory, namespace string, tweakList
 
 // AppGroups returns a AppGroupInformer.
 func (v *version) AppGroups() AppGroupInformer {
-	return &appGroupInformer{factory: v.factory, tweakListOptions: v.tweakListOptions}
+	return &appGroupInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
 }

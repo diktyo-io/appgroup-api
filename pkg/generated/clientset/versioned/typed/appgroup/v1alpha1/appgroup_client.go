@@ -36,8 +36,8 @@ type DiktyoV1alpha1Client struct {
 	restClient rest.Interface
 }
 
-func (c *DiktyoV1alpha1Client) AppGroups() AppGroupInterface {
-	return newAppGroups(c)
+func (c *DiktyoV1alpha1Client) AppGroups(namespace string) AppGroupInterface {
+	return newAppGroups(c, namespace)
 }
 
 // NewForConfig creates a new DiktyoV1alpha1Client for the given config.

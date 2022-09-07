@@ -35,7 +35,7 @@ import (
 // AppGroupsGetter has a method to return a AppGroupInterface.
 // A group's client should implement this interface.
 type AppGroupsGetter interface {
-	AppGroups() AppGroupInterface
+	AppGroups(namespace string) AppGroupInterface
 }
 
 // AppGroupInterface has methods to work with AppGroup resources.
@@ -55,12 +55,14 @@ type AppGroupInterface interface {
 // appGroups implements AppGroupInterface
 type appGroups struct {
 	client rest.Interface
+	ns     string
 }
 
 // newAppGroups returns a AppGroups
-func newAppGroups(c *DiktyoV1alpha1Client) *appGroups {
+func newAppGroups(c *DiktyoV1alpha1Client, namespace string) *appGroups {
 	return &appGroups{
 		client: c.RESTClient(),
+		ns:     namespace,
 	}
 }
 
@@ -68,6 +70,7 @@ func newAppGroups(c *DiktyoV1alpha1Client) *appGroups {
 func (c *appGroups) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.AppGroup, err error) {
 	result = &v1alpha1.AppGroup{}
 	err = c.client.Get().
+		Namespace(c.ns).
 		Resource("appgroups").
 		Name(name).
 		VersionedParams(&options, scheme.ParameterCodec).
@@ -84,6 +87,7 @@ func (c *appGroups) List(ctx context.Context, opts v1.ListOptions) (result *v1al
 	}
 	result = &v1alpha1.AppGroupList{}
 	err = c.client.Get().
+		Namespace(c.ns).
 		Resource("appgroups").
 		VersionedParams(&opts, scheme.ParameterCodec).
 		Timeout(timeout).
@@ -100,6 +104,7 @@ func (c *appGroups) Watch(ctx context.Context, opts v1.ListOptions) (watch.Inter
 	}
 	opts.Watch = true
 	return c.client.Get().
+		Namespace(c.ns).
 		Resource("appgroups").
 		VersionedParams(&opts, scheme.ParameterCodec).
 		Timeout(timeout).
@@ -110,6 +115,7 @@ func (c *appGroups) Watch(ctx context.Context, opts v1.ListOptions) (watch.Inter
 func (c *appGroups) Create(ctx context.Context, appGroup *v1alpha1.AppGroup, opts v1.CreateOptions) (result *v1alpha1.AppGroup, err error) {
 	result = &v1alpha1.AppGroup{}
 	err = c.client.Post().
+		Namespace(c.ns).
 		Resource("appgroups").
 		VersionedParams(&opts, scheme.ParameterCodec).
 		Body(appGroup).
@@ -122,6 +128,7 @@ func (c *appGroups) Create(ctx context.Context, appGroup *v1alpha1.AppGroup, opt
 func (c *appGroups) Update(ctx context.Context, appGroup *v1alpha1.AppGroup, opts v1.UpdateOptions) (result *v1alpha1.AppGroup, err error) {
 	result = &v1alpha1.AppGroup{}
 	err = c.client.Put().
+		Namespace(c.ns).
 		Resource("appgroups").
 		Name(appGroup.Name).
 		VersionedParams(&opts, scheme.ParameterCodec).
@@ -136,6 +143,7 @@ func (c *appGroups) Update(ctx context.Context, appGroup *v1alpha1.AppGroup, opt
 func (c *appGroups) UpdateStatus(ctx context.Context, appGroup *v1alpha1.AppGroup, opts v1.UpdateOptions) (result *v1alpha1.AppGroup, err error) {
 	result = &v1alpha1.AppGroup{}
 	err = c.client.Put().
+		Namespace(c.ns).
 		Resource("appgroups").
 		Name(appGroup.Name).
 		SubResource("status").
@@ -149,6 +157,7 @@ func (c *appGroups) UpdateStatus(ctx context.Context, appGroup *v1alpha1.AppGrou
 // Delete takes name of the appGroup and deletes it. Returns an error if one occurs.
 func (c *appGroups) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
 	return c.client.Delete().
+		Namespace(c.ns).
 		Resource("appgroups").
 		Name(name).
 		Body(&opts).
@@ -163,6 +172,7 @@ func (c *appGroups) DeleteCollection(ctx context.Context, opts v1.DeleteOptions,
 		timeout = time.Duration(*listOpts.TimeoutSeconds) * time.Second
 	}
 	return c.client.Delete().
+		Namespace(c.ns).
 		Resource("appgroups").
 		VersionedParams(&listOpts, scheme.ParameterCodec).
 		Timeout(timeout).
@@ -175,6 +185,7 @@ func (c *appGroups) DeleteCollection(ctx context.Context, opts v1.DeleteOptions,
 func (c *appGroups) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1alpha1.AppGroup, err error) {
 	result = &v1alpha1.AppGroup{}
 	err = c.client.Patch(pt).
+		Namespace(c.ns).
 		Resource("appgroups").
 		Name(name).
 		SubResource(subresources...).

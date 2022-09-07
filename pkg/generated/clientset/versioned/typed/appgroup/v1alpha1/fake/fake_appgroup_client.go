@@ -30,8 +30,8 @@ type FakeDiktyoV1alpha1 struct {
 	*testing.Fake
 }
 
-func (c *FakeDiktyoV1alpha1) AppGroups() v1alpha1.AppGroupInterface {
-	return &FakeAppGroups{c}
+func (c *FakeDiktyoV1alpha1) AppGroups(namespace string) v1alpha1.AppGroupInterface {
+	return &FakeAppGroups{c, namespace}
 }
 
 // RESTClient returns a RESTClient that is used to communicate

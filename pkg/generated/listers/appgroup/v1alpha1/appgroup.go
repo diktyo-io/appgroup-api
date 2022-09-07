@@ -33,9 +33,8 @@ type AppGroupLister interface {
 	// List lists all AppGroups in the indexer.
 	// Objects returned here must be treated as read-only.
 	List(selector labels.Selector) (ret []*v1alpha1.AppGroup, err error)
-	// Get retrieves the AppGroup from the index for a given name.
-	// Objects returned here must be treated as read-only.
-	Get(name string) (*v1alpha1.AppGroup, error)
+	// AppGroups returns an object that can list and get AppGroups.
+	AppGroups(namespace string) AppGroupNamespaceLister
 	AppGroupListerExpansion
 }
 
@@ -57,9 +56,41 @@ func (s *appGroupLister) List(selector labels.Selector) (ret []*v1alpha1.AppGrou
 	return ret, err
 }
 
-// Get retrieves the AppGroup from the index for a given name.
-func (s *appGroupLister) Get(name string) (*v1alpha1.AppGroup, error) {
-	obj, exists, err := s.indexer.GetByKey(name)
+// AppGroups returns an object that can list and get AppGroups.
+func (s *appGroupLister) AppGroups(namespace string) AppGroupNamespaceLister {
+	return appGroupNamespaceLister{indexer: s.indexer, namespace: namespace}
+}
+
+// AppGroupNamespaceLister helps list and get AppGroups.
+// All objects returned here must be treated as read-only.
+type AppGroupNamespaceLister interface {
+	// List lists all AppGroups in the indexer for a given namespace.
+	// Objects returned here must be treated as read-only.
+	List(selector labels.Selector) (ret []*v1alpha1.AppGroup, err error)
+	// Get retrieves the AppGroup from the indexer for a given namespace and name.
+	// Objects returned here must be treated as read-only.
+	Get(name string) (*v1alpha1.AppGroup, error)
+	AppGroupNamespaceListerExpansion
+}
+
+// appGroupNamespaceLister implements the AppGroupNamespaceLister
+// interface.
+type appGroupNamespaceLister struct {
+	indexer   cache.Indexer
+	namespace string
+}
+
+// List lists all AppGroups in the indexer for a given namespace.
+func (s appGroupNamespaceLister) List(selector labels.Selector) (ret []*v1alpha1.AppGroup, err error) {
+	err = cache.ListAllByNamespace(s.indexer, s.namespace, selector, func(m interface{}) {
+		ret = append(ret, m.(*v1alpha1.AppGroup))
+	})
+	return ret, err
+}
+
+// Get retrieves the AppGroup from the indexer for a given namespace and name.
+func (s appGroupNamespaceLister) Get(name string) (*v1alpha1.AppGroup, error) {
+	obj, exists, err := s.indexer.GetByKey(s.namespace + "/" + name)
 	if err != nil {
 		return nil, err
 	}

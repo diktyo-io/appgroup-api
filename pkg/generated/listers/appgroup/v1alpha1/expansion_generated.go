@@ -23,3 +23,7 @@ package v1alpha1
 // AppGroupListerExpansion allows custom methods to be added to
 // AppGroupLister.
 type AppGroupListerExpansion interface{}
+
+// AppGroupNamespaceListerExpansion allows custom methods to be added to
+// AppGroupNamespaceLister.
+type AppGroupNamespaceListerExpansion interface{}
