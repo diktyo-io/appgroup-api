@@ -4,7 +4,7 @@ go_library(
     name = "go_default_library",
     srcs = ["interface.go"],
     importmap = "k8s.io/kubernetes/vendor/github.com/diktyo-io/appgroup-api/pkg/generated/informers/externalversions/appgroup",
-    importpath = "github.com/diktyo-io/appgroup-api/pkg/generated/informers/externalversions/topology",
+    importpath = "github.com/diktyo-io/appgroup-api/pkg/generated/informers/externalversions/appgroup",
     visibility = ["//visibility:public"],
     deps = [
         "//github.com/diktyo-io/appgroup-api/pkg/generated/informers/externalversions/internalinterfaces:go_default_library",
