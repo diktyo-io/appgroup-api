@@ -10,7 +10,7 @@ import (
 // Constants for AppGroup
 const (
 	// AppGroupLabel is the default label of the AppGroup for the network-aware framework
-	AppGroupLabel = "app-group." + appgroupapi.GroupName
+	AppGroupLabel = appgroupapi.GroupName
 
 	// AppGroupSelectorLabel is the default selector label for Pods belonging to a given Workload (e.g., workload = App-A)
 	AppGroupSelectorLabel = AppGroupLabel + ".workload"
@@ -156,4 +156,3 @@ type AppGroupList struct {
 	// Items is the list of AppGroup
 	Items []AppGroup `json:"items"`
 }
-
