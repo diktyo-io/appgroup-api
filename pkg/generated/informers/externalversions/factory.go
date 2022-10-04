@@ -174,9 +174,9 @@ type SharedInformerFactory interface {
 	ForResource(resource schema.GroupVersionResource) (GenericInformer, error)
 	WaitForCacheSync(stopCh <-chan struct{}) map[reflect.Type]bool
 
-	Diktyo() appgroup.Interface
+	Appgroup() appgroup.Interface
 }
 
-func (f *sharedInformerFactory) Diktyo() appgroup.Interface {
+func (f *sharedInformerFactory) Appgroup() appgroup.Interface {
 	return appgroup.New(f, f.namespace, f.tweakListOptions)
 }
