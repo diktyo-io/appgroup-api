@@ -2,5 +2,5 @@ package appgroup
 
 // GroupName is the group name used in this package
 const (
-	GroupName = "app-group.diktyo.k8s.io"
+	GroupName = "appgroup.diktyo.k8s.io"
 )
