@@ -26,7 +26,7 @@ const (
 
 // +genclient
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
-// +kubebuilder:resource:scope=Cluster,shortName=ag
+// +kubebuilder:resource:scope=Namespaced,shortName=ag
 
 // AppGroup is a collection of Pods belonging to the same application
 // +protobuf=true
