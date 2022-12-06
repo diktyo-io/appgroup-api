@@ -28,7 +28,7 @@ const (
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 // +kubebuilder:resource:scope=Namespaced,shortName=ag
 
-// AppGroup is a collection of Pods belonging to the same application
+// AppGroup is a collection of Pods belonging to the same application.
 // +protobuf=true
 type AppGroup struct {
 	metav1.TypeMeta `json:",inline"`
@@ -37,8 +37,7 @@ type AppGroup struct {
 	// +optional
 	metav1.ObjectMeta `json:"metadata,omitempty" protobuf:"bytes,1,opt,name=metadata"`
 
-	// AppGroupSpec defines the Min and Max for Quota.
-	// +optional
+	// AppGroupSpec defines the number of Pods and which Pods belong to the group.
 	Spec AppGroupSpec `json:"spec,omitempty" protobuf:"bytes,2,opt,name=spec"`
 
 	// AppGroupStatus defines the observed use.
@@ -72,7 +71,7 @@ type AppGroupWorkload struct {
 // AppGroupWorkloadInfo contains information about one workload.
 // +protobuf=true
 type AppGroupWorkloadInfo struct {
-	// Kind of the workload; info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds"
+	// Kind of the workload, info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds"
 	Kind string `json:"kind,omitempty" protobuf:"bytes,1,opt,name=kind"`
 
 	// Name represents the workload, info: http://kubernetes.io/docs/user-guide/identifiers#names

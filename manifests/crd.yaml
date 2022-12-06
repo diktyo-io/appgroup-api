@@ -1,6 +1,5 @@
 
 ---
-# App Group CRD spec
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
@@ -15,16 +14,15 @@ spec:
     kind: AppGroup
     listKind: AppGroupList
     plural: appgroups
-    singular: appgroup
     shortNames:
       - ag
-      - ags
+    singular: appgroup
   scope: Namespaced
   versions:
     - name: v1alpha1
       schema:
         openAPIV3Schema:
-          description: AppGroup establishes a service dependency graph among different Pods.
+          description: AppGroup is a collection of Pods belonging to the same application
           properties:
             apiVersion:
               description: 'APIVersion defines the versioned schema of this representation
@@ -39,87 +37,98 @@ spec:
             metadata:
               type: object
             spec:
-              description: AppGroup defines the number of Pods and which Pods belong to the group.
+              description: AppGroupSpec defines the number of Pods and which Pods belong to the group.
               properties:
                 numMembers:
+                  description: NumMembers defines the number of Pods belonging to the
+                    App Group
                   format: int32
                   type: integer
                   minimum: 1
-                  description: Number of Pods belonging to the App Group
                 topologySortingAlgorithm:
+                  description: The preferred Topology Sorting Algorithm
                   type: string
-                  description: The algorithm for TopologyOrder (Status)
                 workloads:
-                  description: The workloads belonging to the group array of AppGroupWorkload
+                  description: Workloads defines the workloads belonging to the group
                   items:
-                    description: AppGroupWorkload contains information about one Workload.
+                    description: AppGroupWorkload represents the Workloads belonging
+                      to the App Group.
                     properties:
-                      workload:
-                        properties:
-                          kind:
-                            description: Kind is a string value representing the REST resource.
-                            type: string
-                          name:
-                            description: Represents the name of the Object
-                            type: string
-                          selector:
-                            description: Defines how to find pods related to the workload
-                            type: string
-                          apiVersion:
-                            description: APIVersion defines the versioned schema of an object.
-                            type: string
-                          namespace:
-                            description: Represents the namespace of the Object
-                            type: string
-                        required:
-                          - kind
-                          - name
-                          - selector
-                        type: object
                       dependencies:
+                        description: Dependencies of the Workload.
                         items:
-                          description: DependenciesList establishes dependencies between workloads.
+                          description: DependenciesInfo contains information about one
+                            dependency.
                           properties:
+                            maxNetworkCost:
+                              description: Max Network Cost between workloads
+                              type: integer
+                              default: 0
+                              minimum: 0
+                              maximum: 10000
+                              format: int64
+                            minBandwidth:
+                              anyOf:
+                                - type: integer
+                                - type: string
+                              description: MinBandwidth between workloads
+                              pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                              x-kubernetes-int-or-string: true
                             workload:
+                              description: Workload reference Info.
                               properties:
+                                apiVersion:
+                                  description: ApiVersion defines the versioned schema
+                                    of an object.
+                                  type: string
                                 kind:
-                                  description: Kind is a string value representing the REST resource.
+                                  description: 'Kind of the workload; info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds"'
                                   type: string
                                 name:
-                                  description: Represents the name of the Object
-                                  type: string
-                                selector:
-                                  description: Defines how to find pods related to the workload
-                                  type: string
-                                apiVersion:
-                                  description: APIVersion defines the versioned schema of an object.
+                                  description: 'Name represents the workload, info:
+                                  http://kubernetes.io/docs/user-guide/identifiers#names'
                                   type: string
                                 namespace:
-                                  description: Represents the namespace of the Object
+                                  description: Namespace of the workload
+                                  type: string
+                                selector:
+                                  description: Selector defines how to find Pods related
+                                    to the Workload (key = workload). (e.g., workload=w1)
                                   type: string
                               required:
                                 - kind
                                 - name
                                 - selector
                               type: object
-                            minBandwidth:
-                              anyOf:
-                                - type: integer
-                                - type: string
-                              description: Bandwidth demand between two workloads.
-                              pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
-                              x-kubernetes-int-or-string: true
-                            maxNetworkCost:
-                              type: integer
-                              default: 0
-                              minimum: 0
-                              maximum: 10000
-                              format: int64
-                              description: The max Network Cost between two workloads.
                           required:
                             - workload
                           type: object
                         type: array
+                      workload:
+                        description: Workload reference Info.
+                        properties:
+                          apiVersion:
+                            description: ApiVersion defines the versioned schema of
+                              an object
+                            type: string
+                          kind:
+                            description: 'Kind of the workload; info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds"'
+                            type: string
+                          name:
+                            description: 'Name represents the workload, info: http://kubernetes.io/docs/user-guide/identifiers#names'
+                            type: string
+                          namespace:
+                            description: Namespace of the workload
+                            type: string
+                          selector:
+                            description: Selector defines how to find Pods related to
+                              the Workload (key = workload). (e.g., workload=w1)
+                            type: string
+                        required:
+                          - kind
+                          - name
+                          - selector
+                        type: object
                     required:
                       - workload
                     type: object
@@ -130,55 +139,57 @@ spec:
                 - workloads
               type: object
             status:
-              description: Record the number of workload allocations and the favored appgroup order.
+              description: AppGroupStatus defines the observed use.
               properties:
                 runningWorkloads:
-                  description: The number of actively running workloads (e.g., pods).
+                  description: The number of actively running workloads (e.g., number
+                    of pods).
                   format: int32
                   type: integer
                   minimum: 0
                 scheduleStartTime:
-                  description: ScheduleStartTime of the AppGroup
+                  description: ScheduleStartTime of the group
                   format: date-time
                   type: string
                 topologyCalculationTime:
-                  description: topologyCalculationTime of the AppGroup
+                  description: TopologyCalculationTime of the group
                   format: date-time
                   type: string
                 topologyOrder:
-                  description: The optimal order to schedule workloads on this App Group based on a given algorithm.
+                  description: Topology order for TopSort plugin (QueueSort)
                   items:
-                    description: Workload reference and Priority index
+                    description: AppGroupTopologyInfo represents the calculated order
+                      for a given Workload.
                     properties:
+                      index:
+                        description: Topology index.
+                        format: int32
+                        type: integer
                       workload:
+                        description: Workload reference Info.
                         properties:
+                          apiVersion:
+                            description: ApiVersion defines the versioned schema of
+                              an object.
+                            type: string
                           kind:
-                            description: Kind is a string value representing the REST resource.
+                            description: 'Kind of the workload; info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds"'
                             type: string
                           name:
-                            description: Represents the name of the Object
-                            type: string
-                          selector:
-                            description: Defines how to find pods related to the workload
-                            type: string
-                          apiVersion:
-                            description: APIVersion defines the versioned schema of an object.
+                            description: 'Name represents the workload, info: http://kubernetes.io/docs/user-guide/identifiers#names'
                             type: string
                           namespace:
-                            description: Represents the namespace of the Object
+                            description: Namespace of the workload
+                            type: string
+                          selector:
+                            description: Selector defines how to find Pods related to
+                              the Workload (key = workload). (e.g., workload=w1)
                             type: string
                         required:
                           - kind
                           - name
                           - selector
                         type: object
-                      index:
-                        type: integer
-                        default: 1
-                        minimum: 1
-                        format: int64
-                        description: Priority index for each workload (e.g., 1, 2, ...)
-                          (1 means workload should be scheduled first in the AppGroup)
                     type: object
                   type: array
               type: object
