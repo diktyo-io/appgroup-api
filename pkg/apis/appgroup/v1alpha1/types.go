@@ -38,7 +38,8 @@ type AppGroup struct {
 	metav1.ObjectMeta `json:"metadata,omitempty" protobuf:"bytes,1,opt,name=metadata"`
 
 	// AppGroupSpec defines the number of Pods and which Pods belong to the group.
-	Spec AppGroupSpec `json:"spec" protobuf:"bytes,2,opt,name=spec"`
+	// +optional
+	Spec AppGroupSpec `json:"spec,omitempty" protobuf:"bytes,2,opt,name=spec"`
 
 	// AppGroupStatus defines the observed use.
 	// +optional
