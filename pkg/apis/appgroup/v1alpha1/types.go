@@ -107,7 +107,8 @@ type AppGroupWorkloadList []AppGroupWorkload
 // +protobuf=true
 type DependenciesInfo struct {
 	// Workload reference Info.
-	Workload AppGroupWorkloadInfo `json:"workload,omitempty" protobuf:"bytes,1,opt,name=workload, casttype=AppGroupWorkloadInfo"`
+	// +required
+	Workload AppGroupWorkloadInfo `json:"workload" protobuf:"bytes,1,opt,name=workload, casttype=AppGroupWorkloadInfo"`
 
 	// MinBandwidth between workloads
 	// +optional
