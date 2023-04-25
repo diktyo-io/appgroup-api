@@ -1,5 +1,5 @@
 /*
-Copyright 2022 The Kubernetes Authors.
+Copyright 2023 The Kubernetes Authors.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -38,9 +38,9 @@ type FakeAppGroups struct {
 	ns   string
 }
 
-var appgroupsResource = schema.GroupVersionResource{Group: "appgroup.diktyo.k8s.io", Version: "v1alpha1", Resource: "appgroups"}
+var appgroupsResource = schema.GroupVersionResource{Group: "appgroup.diktyo.x-k8s.io", Version: "v1alpha1", Resource: "appgroups"}
 
-var appgroupsKind = schema.GroupVersionKind{Group: "appgroup.diktyo.k8s.io", Version: "v1alpha1", Kind: "AppGroup"}
+var appgroupsKind = schema.GroupVersionKind{Group: "appgroup.diktyo.x-k8s.io", Version: "v1alpha1", Kind: "AppGroup"}
 
 // Get takes name of the appGroup, and returns the corresponding appGroup object, and an error if there is any.
 func (c *FakeAppGroups) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.AppGroup, err error) {
