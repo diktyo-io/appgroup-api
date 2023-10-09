@@ -154,6 +154,12 @@ type AppGroupTopologyInfo struct {
 
 	// Topology index.
 	Index int32 `json:"index,omitempty" protobuf:"bytes,2,opt,name=index"`
+
+	// AvgRequirement
+	AvgRequirement int64 `json:"avgRequirement,omitempty" protobuf:"bytes,3,opt,name=avgRequirement"`
+
+	// MaxRequirement
+	MaxRequirement int64 `json:"maxRequirement,omitempty" protobuf:"bytes,4,opt,name=maxRequirement"`
 }
 
 // TopologyList contains an array of workload indexes for the TopologySorting plugin.
