@@ -156,10 +156,10 @@ type AppGroupTopologyInfo struct {
 	Index int32 `json:"index,omitempty" protobuf:"bytes,2,opt,name=index"`
 
 	// AvgBandwidthRequirement
-	AvgBandwidthRequirement int64 `json:"avgBandwidthRequirement,omitempty" protobuf:"bytes,3,opt,name=avgBandwidthRequirement"`
+	AvgBandwidthRequirement resource.Quantity `json:"avgBandwidthRequirement,omitempty" protobuf:"bytes,3,opt,name=avgBandwidthRequirement"`
 
 	// MaxBandwidthRequirement
-	MaxBandwidthRequirement int64 `json:"maxBandwidthRequirement,omitempty" protobuf:"bytes,4,opt,name=maxBandwidthRequirement"`
+	MaxBandwidthRequirement resource.Quantity `json:"maxBandwidthRequirement,omitempty" protobuf:"bytes,4,opt,name=maxBandwidthRequirement"`
 
 	// AvgCostRequirement
 	AvgCostRequirement int64 `json:"avgCostRequirement,omitempty" protobuf:"bytes,5,opt,name=avgCostRequirement"`
