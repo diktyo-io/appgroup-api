@@ -183,7 +183,7 @@ type AppGroupStatistics struct {
 
 	// MinBandwidth
 	// +optional
-	MinCost resource.Quantity `json:"minCost,omitempty" protobuf:"bytes,4,opt,name=minCost"`
+	MinCost int64 `json:"minCost,omitempty" protobuf:"bytes,4,opt,name=minCost"`
 
 	// AvgCost
 	// +optional
