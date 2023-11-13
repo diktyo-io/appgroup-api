@@ -190,8 +190,100 @@ spec:
                           - name
                           - selector
                         type: object
+                      workloadStatistics:
+                        description: AppGroupStatistics represents the bandwidth and cost statistics of the workload.
+                        properties:
+                          minBandwidth:
+                            anyOf:
+                              - type: integer
+                              - type: string
+                            description: avg bandwidth requirement
+                            pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                            x-kubernetes-int-or-string: true
+                          avgBandwidth:
+                            anyOf:
+                              - type: integer
+                              - type: string
+                            description: avg bandwidth requirement
+                            pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                            x-kubernetes-int-or-string: true
+                          maxBandwidth:
+                            anyOf:
+                              - type: integer
+                              - type: string
+                            description: max bandwidth requirement
+                            pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                            x-kubernetes-int-or-string: true
+                          minCost:
+                            description: Avg Network Cost requirement
+                            type: integer
+                            default: 0
+                            minimum: 0
+                            maximum: 10000
+                            format: int64
+                          avgCost:
+                            description: Avg Network Cost requirement
+                            type: integer
+                            default: 0
+                            minimum: 0
+                            maximum: 10000
+                            format: int64
+                          maxCost:
+                            description: Max Network Cost requirement
+                            type: integer
+                            default: 0
+                            minimum: 0
+                            maximum: 10000
+                            format: int64
+                        type: object
                     type: object
                   type: array
+                appGroupStatistics:
+                  description: AppGroupStatistics represents the bandwidth and cost statistics of the workload.
+                  properties:
+                    minBandwidth:
+                      anyOf:
+                        - type: integer
+                        - type: string
+                      description: avg bandwidth requirement
+                      pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                      x-kubernetes-int-or-string: true
+                    avgBandwidth:
+                      anyOf:
+                        - type: integer
+                        - type: string
+                      description: avg bandwidth requirement
+                      pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                      x-kubernetes-int-or-string: true
+                    maxBandwidth:
+                      anyOf:
+                        - type: integer
+                        - type: string
+                      description: max bandwidth requirement
+                      pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                      x-kubernetes-int-or-string: true
+                    minCost:
+                      description: Avg Network Cost requirement
+                      type: integer
+                      default: 0
+                      minimum: 0
+                      maximum: 10000
+                      format: int64
+                    avgCost:
+                      description: Avg Network Cost requirement
+                      type: integer
+                      default: 0
+                      minimum: 0
+                      maximum: 10000
+                      format: int64
+                    maxCost:
+                      description: Max Network Cost requirement
+                      type: integer
+                      default: 0
+                      minimum: 0
+                      maximum: 10000
+                      format: int64
+                  type: object
               type: object
           type: object
       served: true

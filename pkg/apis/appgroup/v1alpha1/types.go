@@ -143,7 +143,11 @@ type AppGroupStatus struct {
 
 	// Topology order for TopSort plugin (QueueSort)
 	// +optional
-	TopologyOrder AppGroupTopologyList `json:"topologyOrder,omitempty" protobuf:"bytes,4,rep,name=topologyOrder,casttype=TopologyList"`
+	TopologyOrder AppGroupTopologyList `json:"topologyOrder,omitempty" protobuf:"bytes,4,opt,name=topologyOrder,casttype=TopologyList"`
+
+	// Statistics for the entire AppGroup
+	// +optional
+	AppGroupStatistics AppGroupStatistics `json:"appGroupStatistics,omitempty" protobuf:"bytes,5,opt,name=appGroupStatistics,casttype=AppGroupStatistics"`
 }
 
 // AppGroupTopologyInfo represents the calculated order for a given Workload.
@@ -155,22 +159,40 @@ type AppGroupTopologyInfo struct {
 	// Topology index.
 	Index int32 `json:"index,omitempty" protobuf:"bytes,2,opt,name=index"`
 
-	// AvgBandwidthRequirement
-	AvgBandwidthRequirement resource.Quantity `json:"avgBandwidthRequirement,omitempty" protobuf:"bytes,3,opt,name=avgBandwidthRequirement"`
-
-	// MaxBandwidthRequirement
-	MaxBandwidthRequirement resource.Quantity `json:"maxBandwidthRequirement,omitempty" protobuf:"bytes,4,opt,name=maxBandwidthRequirement"`
-
-	// AvgCostRequirement
-	AvgCostRequirement int64 `json:"avgCostRequirement,omitempty" protobuf:"bytes,5,opt,name=avgCostRequirement"`
-
-	// MaxCostRequirement
-	MaxCostRequirement int64 `json:"maxCostRequirement,omitempty" protobuf:"bytes,6,opt,name=maxCostRequirement"`
+	WorkloadStatistics AppGroupStatistics `json:"workloadStatistics,omitempty" protobuf:"bytes,3,opt,name=workloadStatistics, casttype=AppGroupStatistics"`
 }
 
-// TopologyList contains an array of workload indexes for the TopologySorting plugin.
+// AppGroupTopologyList TopologyList contains an array of workload indexes for the TopologySorting plugin.
 // +protobuf=true
 type AppGroupTopologyList []AppGroupTopologyInfo
+
+// AppGroupStatistics represents the bandwidth and cost statistics of the workload.
+// +protobuf=true
+type AppGroupStatistics struct {
+	// MinBandwidth
+	// +optional
+	MinBandwidth resource.Quantity `json:"minBandwidth,omitempty" protobuf:"bytes,1,opt,name=minBandwidth"`
+
+	// AvgBandwidth
+	// +optional
+	AvgBandwidth resource.Quantity `json:"avgBandwidth,omitempty" protobuf:"bytes,2,opt,name=avgBandwidth"`
+
+	// MaxBandwidth
+	// +optional
+	MaxBandwidth resource.Quantity `json:"maxBandwidth,omitempty" protobuf:"bytes,3,opt,name=maxBandwidth"`
+
+	// MinBandwidth
+	// +optional
+	MinCost resource.Quantity `json:"minCost,omitempty" protobuf:"bytes,4,opt,name=minCost"`
+
+	// AvgCost
+	// +optional
+	AvgCost int64 `json:"avgCost,omitempty" protobuf:"bytes,5,opt,name=avgCost"`
+
+	// MaxCost
+	// +optional
+	MaxCost int64 `json:"maxCost,omitempty" protobuf:"bytes,6,opt,name=maxCost"`
+}
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
